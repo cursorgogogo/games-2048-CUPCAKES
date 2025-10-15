@@ -9,7 +9,7 @@ html, body {
   font-size: 18px; }
 
 body {
-  padding: 80px 0;
+  padding: 40px 0;
   background-image: url(img/bg.jpg);
   background-position: top center;
   background-repeat: no-repeat; }
@@ -20,13 +20,13 @@ body {
   clear: both; }
 
 h1.title {
-  font-size: 80px;
+  font-size: 50px;
   font-weight: bold;
   margin: 0;
   display: block;
   text-align: center; }
   h1.title small {
-    font-size: 60px; }
+    font-size: 50px; }
 
 .title-container {
   position: relative;
@@ -67,7 +67,7 @@ h1.title {
   display: inline-block;
   background: #f67098;
   padding: 15px 0px;
-  font-size: 19px;
+  font-size: 16px;
   text-transform: capitalize;
   height: 19px;
   line-height: 41px;
