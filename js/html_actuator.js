@@ -171,9 +171,9 @@ HTMLActuator.prototype.scoreTweetButton = function () {
   var tweet = document.createElement("a");
   tweet.classList.add("twitter-share-button");
   tweet.setAttribute("href", "https://twitter.com/share");
-  tweet.setAttribute("data-via", "giampiex");
-  tweet.setAttribute("data-url", "https://2048club.com");
-  tweet.setAttribute("data-counturl", "https://2048club.com");
+  // tweet.setAttribute("data-via", "");
+  tweet.setAttribute("data-url", "https://2048hub.com");
+  tweet.setAttribute("data-counturl", "https://2048hub.com");
   tweet.textContent = "Tweet";
 
   var text = Localize("tweet1") + Localize( "p" + this.score ) + '", ' + this.points + " Kcal " + Localize("tweet2");
