@@ -5,11 +5,14 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.actuator       = new Actuator;
 
   this.startTiles     = 2;
+  this.history        = []; // Store game states for undo functionality
+  this.maxHistorySize = 10; // Limit history size to prevent memory issues
 
 /*   this.inputManager.on("crowd", this.crowd.bind(this)); */
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
+  this.inputManager.on("undo", this.undo.bind(this));
 
   this.setup();
 }
@@ -164,6 +167,52 @@ GameManager.prototype.addStartTiles = function () {
   }
 };
 
+// Save current game state to history
+GameManager.prototype.saveToHistory = function () {
+  // Don't save if game is won and user hasn't chosen to keep playing
+  if (this.won && !this.keepPlaying) {
+    return;
+  }
+  
+  var state = this.serialize();
+  this.history.push(state);
+  
+  // Limit history size
+  if (this.history.length > this.maxHistorySize) {
+    this.history.shift();
+  }
+};
+
+// Undo the last move
+GameManager.prototype.undo = function () {
+  if (this.history.length === 0) {
+    return; // No history to undo
+  }
+  
+  // Don't allow undo if game is won and user hasn't chosen to keep playing
+  if (this.won && !this.keepPlaying) {
+    return;
+  }
+  
+  var previousState = this.history.pop();
+  
+  // Restore the previous state
+  this.grid = new Grid(previousState.grid.size, previousState.grid.cells);
+  this.score = previousState.score;
+  this.points = previousState.points;
+  this.over = previousState.over;
+  this.won = previousState.won;
+  this.keepPlaying = previousState.keepPlaying;
+  
+  // Clear the game over message if we're undoing from a game over state
+  if (this.over === false) {
+    this.actuator.continueGame();
+  }
+  
+  // Update the display
+  this.actuate();
+};
+
 // Adds a tile in a random position
 GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
@@ -237,6 +286,9 @@ GameManager.prototype.move = function (direction) {
 
   if (this.isGameTerminated()) return; // Don't do anything if the game's over
 
+  // Save current state before making a move
+  this.saveToHistory();
+
   var cell, tile;
 
   var vector     = this.getVector(direction);
@@ -292,6 +344,11 @@ GameManager.prototype.move = function (direction) {
     }
 
     this.actuate();
+  } else {
+    // If no move was made, remove the last saved state since it's not needed
+    if (this.history.length > 0) {
+      this.history.pop();
+    }
   }
 };
 

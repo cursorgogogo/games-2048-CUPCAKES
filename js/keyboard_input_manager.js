@@ -66,6 +66,12 @@ KeyboardInputManager.prototype.listen = function () {
     if (!modifiers && event.which === 82) {
       self.restart.call(self, event);
     }
+    
+    // Ctrl+Z or Cmd+Z for undo
+    if ((event.ctrlKey || event.metaKey) && event.which === 90) {
+      event.preventDefault();
+      self.emit("undo");
+    }
   });
 
   // Respond to button presses
@@ -73,6 +79,7 @@ KeyboardInputManager.prototype.listen = function () {
   this.bindButtonPress(".retry-button", this.restart);
   this.bindButtonPress(".restart-button", this.restart);
   this.bindButtonPress(".keep-playing-button", this.keepPlaying);
+  this.bindButtonPress(".undo-button", this.undo);
 
   // Respond to swipe events
   var touchStartClientX, touchStartClientY;
@@ -136,6 +143,11 @@ KeyboardInputManager.prototype.restart = function (event) {
 KeyboardInputManager.prototype.keepPlaying = function (event) {
   event.preventDefault();
   this.emit("keepPlaying");
+};
+
+KeyboardInputManager.prototype.undo = function (event) {
+  event.preventDefault();
+  this.emit("undo");
 };
 
 KeyboardInputManager.prototype.crowd = function (event) {

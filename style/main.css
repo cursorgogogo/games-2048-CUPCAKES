@@ -569,6 +569,11 @@ hr {
   -moz-animation-fill-mode: backwards;
   animation-fill-mode: backwards; }
 
+.above-game {
+  position: relative;
+  z-index: 100;
+}
+
 .above-game:after {
   content: "";
   display: block;
@@ -581,6 +586,15 @@ hr {
   margin-bottom: 0;
   margin-top: 0; }
 
+.game-buttons {
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 10px;
+  width: 100%;
+}
+
 .restart-button {
   display: inline-block;
   background: #f888a9;
@@ -590,9 +604,25 @@ hr {
   color: #3c1b1a;
   height: 40px;
   line-height: 42px;
-  display: block;
+  text-align: center; }
+
+.undo-button {
+  display: inline-block;
+  background: #f888a9;
+  border-radius: 3px;
+  padding: 0;
+  text-decoration: none;
+  color: #3c1b1a;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
-  float: right; }
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px; }
+
+.undo-button:hover {
+  background: #f998b9; }
 
 .game-explanation {
   margin-top: 50px; }
@@ -625,22 +655,24 @@ hr {
     margin-bottom: 10px; }
 
   .game-intro {
-    width: 55%;
+    width: 100%;
     display: block;
     box-sizing: border-box;
     line-height: 1.65;
     font-size: 16px;
-    margin-top: 10px; }
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
 
   .restart-button, .retry-button {
-    width: 42%;
+    width: 50%;
     padding: 0;
     display: block;
     box-sizing: border-box;
-    margin-top: 2px; }
+    margin-top: 0; }
 
   .game-container {
-    margin-top: 17px;
+    margin-top: 16px;
     position: relative;
     padding: 10px;
     cursor: default;
